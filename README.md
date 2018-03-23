@@ -60,6 +60,10 @@ For base64, the the request is image: {content: b64data}, for url, the request i
 
 ## How it look like
 Didn't put too much effort on UI, all i can say is, it's in good shape.
+* popup
+<img src="https://github.com/zuoweifu/AvoidIt/blob/master/img/popup.png" alt="Popup" height=400/>
+* options
+<img src="https://github.com/zuoweifu/AvoidIt/blob/master/img/options.png" alt="Popup" height=400/>
 
 ## Future
 * Compress base64 image to speed up the process
