@@ -33,9 +33,17 @@ document.addEventListener('DOMContentLoaded', function() {
       //alert(obj);
     });
 });
-chrome.storage.local.remove(["tagkey"],function(){
- var error = chrome.runtime.lastError;
-    if (error) {
-        console.error(error);
-    }
-})
+
+document.addEventListener('DOMContentLoaded', function() {
+    var link = document.getElementById('cleartags');
+    // onClick's logic below:
+    link.addEventListener('click', function() {
+        chrome.storage.local.clear(function() {
+          var error = chrome.runtime.lastError;
+          if (error) {
+              console.error(error);
+        }
+      });
+      document.getElementById("tagadded").innerHTML = '';
+    });
+});

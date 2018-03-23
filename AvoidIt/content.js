@@ -1,43 +1,53 @@
-//API key
+/*
+Avoid It Beta 0.1
+This is a Chrome Extension that automatically hide the images you don't wanna see.
+Basically what it does is to scan thourgh all the images in the page that you are visiting
+and uses Google Vision API to do pattern recognition and generate labels for them.
+If the lables matched with the tags you pre-entered, the image will be hided.
+*/
+
+//API key for Google Vision API
 var API_KEY = 'AIzaSyATtlv0ME3vEsTimOKnpE1ZH8cZyQ6VPjg';
+
 //Max Labls
-var MAX_LABELS = 4; // Only show the top few labels for an image.
-//specila code for google.com
-var googleurl = 'https://www.google';
-if (document.URL.substr(0,18) == googleurl){
-    console.log('visiting google');
-}
-
-
-
+var MAX_LABELS = 2; // Only show the top few labels for an image.
 
 //get all images in a page
 var images = document.getElementsByTagName('img'); 
-console.log('there are ',images.length,'images');
+
 //get all tags stored locally
 var alltags = [];
 chrome.storage.local.get(null, function(items) {
     alltags = Object.keys(items);
-    console.log('keys are',alltags);
 });
 
-
-
+//count the number of matched images
+var matchedimages = 0;
 
 // detect makes a Cloud Vision API request with the API key.
-var detect = function (type, b64data, cb) {
-    console.log("detecting",b64data);
+var detect = function (type, uri, cb) {
   var url = 'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY;
   var data = {
     requests: [{
-       //image: {content: b64data},
-       image: {source: {imageUri:b64data}},
+       image: {source: {imageUri:uri}},
       features: [{'type': type}]
     }]
   };
   http('POST', url, JSON.stringify(data), cb);
 };
 
+// detectb64 makes a Cloud Vision API request with the API key.
+//images are base64 format in this function
+var detectb64 = function (type, b64data, cb) {
+  var url = 'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY;
+  var data = {
+    requests: [{
+       image: {content: b64data},
+      features: [{'type': type}]
+    }]
+  };
+  http('POST', url, JSON.stringify(data), cb);
+};
 
 
 //http makes an HTTP request and calls callback with parsed JSON.
@@ -57,7 +67,6 @@ var http = function (method, url, body, cb) {
 };
 
 
-
 //b64 converter
 var b64 = function (url, cb) {
   var image = new Image();
@@ -74,8 +83,7 @@ var b64 = function (url, cb) {
 };
 
 
-
-//match tag and lable, if matched, do  
+//check if lables matchs pre-entered tags
 var match = function (index,url){
 detect('LABEL_DETECTION', url , function (data) {
         var labels = (((data.responses || [{}])[0]).labelAnnotations || [{}]);
@@ -86,9 +94,10 @@ detect('LABEL_DETECTION', url , function (data) {
         var t = '';
         for (var i = 0; i < labels.length && i < MAX_LABELS; i++) {
         t += labels[i].description + ' (' + labels[i].score + ')\n';
-        console.log('Labels detected', t);
         if(alltags.indexOf(labels[i].description) > -1){
+            console.log('Labels detected', t);
             images[index].style.opacity = "0";
+            matchedimages++;
           }
         }
       });
@@ -96,15 +105,43 @@ detect('LABEL_DETECTION', url , function (data) {
 
 
 
+//check if lables matchs pre-entered tags
+var matchb64 = function (index,uri){
+  b64(uri, function (b64data) {
+    detectb64('LABEL_DETECTION', b64data , function (data) {
+        var labels = (((data.responses || [{}])[0]).labelAnnotations || [{}]);
+        if (labels.length === 0) {
+          notify('No labels detected');
+          return;
+        }
+        var t = '';
+        for (var i = 0; i < labels.length && i < MAX_LABELS; i++) {
+        t += labels[i].description + ' (' + labels[i].score + ')\n';
+        if(alltags.indexOf(labels[i].description) > -1){
+            console.log('Labels detected', t);
+            images[index].style.opacity = "0";
+            matchedimages++;
+          }
+        }
+      });
+  });
+}
+
+
+//loop thourgh all the images
 for (var x = 0, l = images.length; x < l; x++) {
-       if (images[x].src.substr(0,10)=="data:image") continue;
+       if (images[x].src.substr(0,10)=="data:image"){
+        //console.log('base64',images[x].src);
+        matchb64(x,images[x].src);
+       }
        if($(images[x]).attr("data-src")){
-        console.log('data-src',$(images[x]).attr("data-src"));
+        //console.log('data-src',$(images[x]).attr("data-src"));
         match(x,$(images[x]).attr("data-src"));
        }else{
-        console.log('src',images[x].src);
+        //console.log('src',images[x].src);
         match(x,images[x].src);
        }
 }
 
+//notification
 

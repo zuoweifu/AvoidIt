@@ -6,15 +6,26 @@
 }
 
 body {
-  font-family: "Roboto";
-  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
   background-size: 200% 100% !important;
   -webkit-animation: move 10s ease infinite;
           animation: move 10s ease infinite;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
-  height: 100vh;
+  height: 80vh;
+}
+
+.description{
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.tags{
+  color: white;
+  font-weight: bolder;
+  font-size: 22px;
 }
 
 .user {
@@ -62,7 +73,7 @@ body {
   display: block;
   width: 100%;
   padding: 20px;
-  font-family: "Roboto";
+  font-family: Arial, Helvetica, sans-serif;
   -webkit-appearance: none;
   border: 0;
   outline: 0;
@@ -74,10 +85,11 @@ body {
 }
 
 .btn {
+  font-size: 18px;
   display: block;
   width: 100%;
   padding: 20px;
-  font-family: "Roboto";
+  font-family: Arial, Helvetica, sans-serif;
   -webkit-appearance: none;
   outline: 0;
   border: 0;
@@ -87,6 +99,7 @@ body {
   transition: 0.3s;
 }
 .btn:hover {
+  color: white;
   background: #a09486;
 }
 

@@ -1,33 +1,38 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <style>
-        body {
-            min-width: 420px;
-            overflow-x: hidden;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-        }
-        input, textarea {
-            width: 420px;
-        }
-        input#save {
-            font-weight: bold; width: auto;
-        }
-    </style>
-    <script src="popup.js"></script>
-</head>
-<body>
-    <form id="addbookmark">
-        <p>
-            <label for="title">Title</label><br />
-            <input type="text" id="title" name="title" size="50" value="" />
-        </p>
-   
-        <p>
-            <input id="save" type="submit" value="Save Bookmark" />
-            <span id="status-display"></span>
-        </p>
-    </form>
-</body>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+       <link rel="stylesheet" type="text/css" href="popup.css">
+       <script src="index.js"></script>
+    </head>
+    <body>
+        <center>
+            <form class="form-style-7" id="tagform">
+                <p class="title">Add tags that you don't wanna see</p>
+                <ul>
+                    <li>
+                        <input id="taginput" required="required" type="text" maxlength="100">
+                        <span>Input the pattern you want to avoid</span>
+                    </li>
+                    <li>
+                        <input type="submit" id="tagsubmit" value="Add" >
+                    </li>
+                </ul>
+            </form>
+
+            <p class="title">Tags you already added:</p>
+             
+            <p class="tagadded" id="tagadded"></p>
+            
+            <button id="cleartags" type="button">clear all tags</button>
+        </center>
+
+        <script type="text/javascript">
+            //auto expand textarea
+            function adjust_textarea(h) {
+                h.style.height = "20px";
+                h.style.height = (h.scrollHeight)+"px";
+            }
+        </script>
+    </body>
 </html>
