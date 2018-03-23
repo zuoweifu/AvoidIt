@@ -7,7 +7,7 @@ If the lables matched with the tags you pre-entered, the image will be hided.
 */
 
 //API key for Google Vision API
-var API_KEY = 'AIzaSyATtlv0ME3vEsTimOKnpE1ZH8cZyQ6VPjg';
+var API_KEY = ;
 
 //Max Labls
 var MAX_LABELS = 2; // Only show the top few labels for an image.
