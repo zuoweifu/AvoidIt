@@ -1,7 +1,7 @@
 # Avoid It!
 * Beta 0.1
 
-Link to Chrome Store: 
+Link to Chrome Store: https://chrome.google.com/webstore/detail/avoid-it/onknlaompdefaphgmhoodjfinihkaijf
 
 ## How did i came up with this idea?
 I believe everyone has something to fear. Some are afraid of spider, some are afraid of lion, myself is afraid of snake. 
